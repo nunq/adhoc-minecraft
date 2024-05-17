@@ -6,5 +6,3 @@ resource "hcloud_server" "minecraft" {
   location    = "nbg1"
   ssh_keys    = [hcloud_ssh_key.adhoc-mc.id]
 }
-
-
