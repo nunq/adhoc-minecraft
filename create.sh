@@ -8,7 +8,7 @@ echo -e "\nWaiting for server to boot ..."
 sleep 20
 
 ansible-playbook -i "$IP," \
-  --private-key ~/.ssh/id_ed25519_adhoc-mc -u root \
+  --private-key ~/.ssh/id_ed25519_adhoc-mc \
   -u root \
   ansible/create-minecraft.yml
 
