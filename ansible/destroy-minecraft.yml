@@ -1,0 +1,16 @@
+# this runs everything as root
+- name: Decommission an Ubuntu 24.04 Minecraft server
+  hosts: all:!localhost
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: "Stop Docker Container itzg/docker-minecraft-server"
+      become_user: minecraft
+      ansible.builtin.command: >
+        docker stop minecraft
+
+    - name: "Rsync data directory to external storage"
+      become_user: minecraft
+      ansible.builtin.command: >
+        sshpass -p {{ pass }} rsync --progress -havP -e 'ssh -o StrictHostKeyChecking=no -p 23' ~/data/ {{ user }}@{{ ext_storage }}

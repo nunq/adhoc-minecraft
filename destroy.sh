@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
-# rsync data to cloud storage
-#
+set -eu -o pipefail
+
+while getopts s:u:p: flag
+do
+    case "${flag}" in
+        s) storage=${OPTARG};;
+        u) username=${OPTARG};;
+        p) pass=${OPTARG};;
+    esac
+done
+
+# Check if storage is set
+: ${storage:?Missing -s}
+: ${username:?Missing -u}
+: ${pass:?Missing -p}
+
 IP="$(terraform output -raw minecraft_server_ip)"
+
+ansible-playbook -i "$IP," \
+  --private-key ~/.ssh/id_ed25519_adhoc-mc \
+  -u minecraft \
+  --extra-vars "ext_storage=$storage user=$username pass=$pass" \
+  ansible/destroy-minecraft.yml
 
 terraform destroy -auto-approve
 
