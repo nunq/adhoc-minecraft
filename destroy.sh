@@ -25,6 +25,6 @@ ansible-playbook -i "$IP," \
 
 terraform destroy -auto-approve
 
-echo "\nRemoving $IP from known_hosts"
+echo -e "\nRemoving $IP from known_hosts"
 ssh-keygen -R "$IP" || true
 
