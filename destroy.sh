@@ -28,3 +28,4 @@ terraform destroy -auto-approve
 echo -e "\nRemoving $IP from known_hosts"
 ssh-keygen -R "$IP" || true
 
+rm ./ssh.sh || true
