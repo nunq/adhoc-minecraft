@@ -33,6 +33,9 @@ terraform apply -auto-approve
 IP="$(terraform output -raw minecraft_server_ip)"
 PW_HASH="$(openssl passwd -6 $user_cred)"
 
+echo "ssh minecraft@$IP -i $SSH_KEY_PATH" > ./ssh.sh
+chmod +x ./ssh.sh
+
 echo -e "\nWaiting for server to boot (20 sec) ..."
 sleep 20
 
@@ -41,4 +44,7 @@ ansible-playbook -i "$IP," \
   -u root \
   --extra-vars "ext_storage=$storage user=$username pass=$pass whitelist=$whitelist ops=$ops pw_hash=$PW_HASH" \
   ansible/create-minecraft.yml
+
+echo "Server is ready!"
+echo "ssh into the server by running ./ssh.sh"
 
