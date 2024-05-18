@@ -62,6 +62,12 @@
         groups: docker
         append: true
 
+    - name: "Restore save data from external storage"
+      become_user: minecraft
+      shell: |
+        mkdir /home/minecraft/data/
+        sshpass -p {{ pass }} rsync -avz -e 'ssh -o StrictHostKeyChecking=no -p 23' {{ user }}@{{ ext_storage }} /home/minecraft/data/
+
     - name: "Run Docker Container itzg/docker-minecraft-server"
       become_user: minecraft
       ansible.builtin.command: >
