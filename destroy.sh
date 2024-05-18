@@ -10,7 +10,7 @@ do
     esac
 done
 
-# Check if storage is set
+# Check if variables are set
 : ${storage:?Missing -s}
 : ${username:?Missing -u}
 : ${pass:?Missing -p}
