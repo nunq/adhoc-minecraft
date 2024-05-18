@@ -33,7 +33,7 @@ terraform apply -auto-approve
 IP="$(terraform output -raw minecraft_server_ip)"
 PW_HASH="$(openssl passwd -6 $user_cred)"
 
-echo "ssh minecraft@$IP -i $SSH_KEY_PATH" > ./ssh.sh
+echo -e "#!/usr/bin/env bash\nssh minecraft@$IP -i $SSH_KEY_PATH" > ./ssh.sh
 chmod +x ./ssh.sh
 
 echo -e "\nWaiting for server to boot (20 sec) ..."
