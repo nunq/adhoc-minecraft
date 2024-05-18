@@ -47,4 +47,5 @@ ansible-playbook -i "$IP," \
 
 echo "Server is ready!"
 echo "ssh into the server by running ./ssh.sh"
+echo -e "\nMinecraft Server IP: $IP"
 
