@@ -12,6 +12,11 @@ do
   esac
 done
 
+# Check if variables are set
+: ${storage:?Missing -s}
+: ${username:?Missing -u}
+: ${pass:?Missing -p}
+
 if [ ! -f "$SSH_KEY_PATH" ]; then
   echo  "Creating ad-hoc minecraft SSH key ..."
   ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "adhoc-mc"
