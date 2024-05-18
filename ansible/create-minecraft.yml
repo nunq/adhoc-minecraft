@@ -77,6 +77,7 @@
         --volume /home/minecraft/data:/data
         -e EULA=TRUE
         -e MEMORY=7G
+        -e LEVEL="world_created_%date:yyyy-MM-dd%"
         -e MOTD="minecraft server"
         -e DIFFICULTY=normal
         itzg/minecraft-server
