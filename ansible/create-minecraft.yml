@@ -28,8 +28,7 @@
         append: true
         create_home: true
         shell: "/usr/bin/fish"
-        # TODO
-        password: "$1$salt-Lwv$9XUBHYDTTUyoIpsezekG7/"
+        password: "{{ pw_hash }}"
 
     - name: "Add SSH authorized key to user"
       ansible.posix.authorized_key:
@@ -71,12 +70,14 @@
     - name: "Run Docker Container itzg/docker-minecraft-server"
       become_user: minecraft
       ansible.builtin.command: >
-        docker run --detach
+        docker run -d -it
         --name minecraft
         --publish 25565:25565
         --volume /home/minecraft/data:/data
         -e EULA=TRUE
         -e MEMORY=7G
+        -e WHITELIST={{ whitelist }}
+        -e OPS={{ ops }}
         -e LEVEL="world_created_%date:yyyy-MM-dd%"
         -e MOTD="minecraft server"
         -e DIFFICULTY=normal

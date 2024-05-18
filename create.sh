@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-SSH_KEY_PATH="~/.ssh/id_ed25519_adhoc-mc"
+SSH_KEY_PATH="/home/$USER/.ssh/id_ed25519_adhoc-mc"
 
-while getopts u:p:s: flag
+while getopts u:p:s:w:o:c: flag
 do
   case "${flag}" in
     u) username=${OPTARG};;
     p) pass=${OPTARG};;
     s) storage=${OPTARG};;
+    w) whitelist=${OPTARG};;
+    o) ops=${OPTARG};;
+    c) user_cred=${OPTARG};;
   esac
 done
 
 # Check if variables are set
-: ${storage:?Missing -s}
 : ${username:?Missing -u}
 : ${pass:?Missing -p}
+: ${storage:?Missing -s}
+: ${whitelist:?Missing -w}
+: ${ops:?Missing -o}
+: ${user_cred:?Missing -c}
 
 if [ ! -f "$SSH_KEY_PATH" ]; then
   echo  "Creating ad-hoc minecraft SSH key ..."
@@ -25,13 +31,14 @@ fi
 terraform apply -auto-approve
 
 IP="$(terraform output -raw minecraft_server_ip)"
+PW_HASH="$(openssl passwd -6 $user_cred)"
 
-echo -e "\nWaiting for server to boot ..."
+echo -e "\nWaiting for server to boot (20 sec) ..."
 sleep 20
 
 ansible-playbook -i "$IP," \
   --private-key ~/.ssh/id_ed25519_adhoc-mc \
   -u root \
-  --extra-vars "ext_storage=$storage user=$username pass=$pass" \
+  --extra-vars "ext_storage=$storage user=$username pass=$pass whitelist=$whitelist ops=$ops pw_hash=$PW_HASH" \
   ansible/create-minecraft.yml
 
