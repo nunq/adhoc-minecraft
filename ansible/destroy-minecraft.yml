@@ -13,4 +13,4 @@
     - name: "Rsync data directory to external storage"
       become_user: minecraft
       ansible.builtin.command: >
-        sshpass -p {{ pass }} rsync --progress -havP -e 'ssh -o StrictHostKeyChecking=no -p 23' ~/data/ {{ user }}@{{ ext_storage }}
+        sshpass -p {{ pass }} rsync --progress -havP --delete -e 'ssh -o StrictHostKeyChecking=no -p 23' ~/data/ {{ user }}@{{ ext_storage }}
