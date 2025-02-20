@@ -78,7 +78,7 @@
         -e MEMORY=7G
         -e WHITELIST={{ whitelist }}
         -e OPS={{ ops }}
-        -e LEVEL="world_created_%date:yyyy-MM-dd%"
+        -e LEVEL={{ world_name }}
         -e MOTD="minecraft server"
         -e DIFFICULTY=normal
         itzg/minecraft-server

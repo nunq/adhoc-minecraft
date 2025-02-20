@@ -1,5 +1,6 @@
 TODO
 ssh.sh
+secrets.sh
 
 # Local .terraform directories
 **/.terraform/*
